@@ -1,0 +1,67 @@
+## Copyright (C) 2017, Nicholas Carlini and Nicolas Papernot.
+## All rights reserved.
+
+from __future__ import print_function
+
+print("Verifying that the system setup is correct...")
+
+try:
+    import numpy as np
+    print("numpy: OK")
+except:
+    print("Unable to import numpy.")
+    print("You should install it with pip install numpy")
+    exit(1)
+
+try:
+    import os
+    os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+except:
+    # This just disables tensorflow obnoxious messages
+    # it's okay if it fails
+    pass
+
+try:
+    import tensorflow as tf
+    print("tensorflow: OK")
+except:
+    print("Unable to import tensorflow.")
+    print("You should install it with pip install tensorflow")
+    exit(1)
+
+if tf.__version__[0] != '1':
+    print("You have tensorflow installed corretly, but an old version")
+    print("The tutorial may or may not work.")
+    print("You may want to uninstall and reinstall tensorflow.")
+    
+try:
+    sess = tf.Session()
+    if sess.run(tf.constant(3)+tf.constant(5)) != 8:
+        print("Tensorflow is not able to do math.")
+        print("This should never happen.")
+        print("Try reinstalling tensorflow, or using a different version.")
+        exit(1)
+except:
+    print("Unable instantiate a session object.")
+    print("Try reinstalling tensorflow, or using a different version.")
+    exit(1)
+
+try:
+    import scipy.misc
+    print("scipy: OK")
+except:
+    print("Unable to import scipy.misc.")
+    print("You should install it with pip install scipy")
+    exit(1)
+
+import setup_inception
+setup_inception.setup()
+model = setup_inception.InceptionModel(sess)
+preds = model.predict(tf.constant(np.zeros((1,299,299,3), dtype=np.float32)))
+preds = sess.run(preds)
+
+if np.argmax(preds) == 523:
+    print("Everything is properly installed and set up.")
+    print("You are good to go.")
+else:
+    print("Inception did not properly setup")
