@@ -1,6 +1,6 @@
 ## Copyright (C) 2017, Nicholas Carlini and Nicolas Papernot.
 ## All rights reserved.
-
+from __future__ import print_function
 
 # Start off by just disbaling tensorflow's obnoxious warnings.
 try:

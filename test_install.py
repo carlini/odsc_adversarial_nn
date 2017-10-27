@@ -52,6 +52,7 @@ try:
 except:
     print("Unable to import cleverhans.")
     print("You should install it with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans")
+    exit(1)
 
 
 try:
