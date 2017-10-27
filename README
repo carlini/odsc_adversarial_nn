@@ -1,0 +1,10 @@
+You will need to install the following packages:
+- numpy
+- scipy
+- tensorflow, version 1.0 or greater
+- cleverhans
+
+This should be easily done with pip:
+sudo pip install numpy scipy tensorflow
+sudo pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans
+

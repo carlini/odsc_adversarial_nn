@@ -47,6 +47,14 @@ except:
     exit(1)
 
 try:
+    import cleverhans
+    print("cleverhans: OK")
+except:
+    print("Unable to import cleverhans.")
+    print("You should install it with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans")
+
+
+try:
     import scipy.misc
     print("scipy: OK")
 except:
