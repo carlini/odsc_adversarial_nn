@@ -22,15 +22,14 @@ import setup_inception
 # And a mapping of the numeric IDs to human readable names
 from imagenet_labels import id_to_name
 
+# Tensorflow works by maintaining a "session" of the current
+# environment. This is where we instantiate it.
+sess = tf.Session()
 
 # First, we set up the Inception model. If this is the first
 # time this file is being run, this will also download and
 # extract the Inception weights into a temporary folder.
 setup_inception.setup()
-
-# Tensorflow works by maintaining a "session" of the current
-# environment. This is where we instantiate it.
-sess = tf.Session()
 
 # Now we create the inception model.
 model = setup_inception.InceptionModel(sess)
@@ -48,7 +47,7 @@ image_placeholder = tf.placeholder(tf.float32, (1, 299, 299, 3))
 # We take this image and feed it into the model, obtaining
 # a set of "logits" -- numbers that correspond to how likely
 # any given class may be, although not directly.
-logits_tensor = model.predict(image_placeholder)
+logits_tensor = model(image_placeholder)
 
 # We turn these logits into probabilities through a softmax
 # activation function. At this point, we have a tensor that
@@ -61,7 +60,7 @@ probs_tensor = tf.nn.softmax(logits_tensor)
 
 # The first image, of a panda, is already in the images folder.
 # We load it with scipy
-image = scipy.misc.imread("images/panda.jpg")
+image = scipy.misc.imread("images/adversarial_panda.png")
 
 # Inception wants the images to be 299x299, so resize it.
 image = np.array(scipy.misc.imresize(image, (299, 299)),

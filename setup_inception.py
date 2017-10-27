@@ -219,6 +219,9 @@ class InceptionModel:
       input_map={'Cast:0': scaled},
       return_elements=['softmax/logits:0'])
     return softmax_tensor[0]
+
+  def __call__(self, img):
+    return self.predict(img)
   
 
 def maybe_download_and_extract():
