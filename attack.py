@@ -2,7 +2,7 @@
 ## All rights reserved.
 from __future__ import print_function
 
-# Start off by just disbaling tensorflow's obnoxious warnings.
+# Start off by just disbaling tensorflow's warnings.
 try:
     import os
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
