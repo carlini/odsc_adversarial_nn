@@ -54,6 +54,13 @@ except:
     print("You should install it with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans")
     exit(1)
 
+try:
+    if cleverhans.__version__[0] != '2':
+        print("Upgrade Cleverhans with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans -upgrade")
+        raise Exception('Your version of CleverHans is too old.')
+except:
+    print("Upgrade Cleverhans with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans -upgrade")
+    raise Exception('Your version of CleverHans is too old.')
 
 try:
     import scipy.misc
