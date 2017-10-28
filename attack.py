@@ -56,7 +56,7 @@ fgsm = cleverhans.attacks.FastGradientMethod(cleverhans_model, 'tf', sess)
 
 # The first image, of a panda, is already in the images folder.
 # We load it with scipy
-image = scipy.misc.imread("images/panda.jpg")
+image = scipy.misc.imread("images/panda.png")
 
 # Inception wants the images to be 299x299, so resize it.
 image = np.array(scipy.misc.imresize(image, (299, 299)),

@@ -2,7 +2,7 @@
 ## All rights reserved.
 from __future__ import print_function
 
-# Start off by just disbaling tensorflow's obnoxious warnings.
+# Start off by just disabling tensorflow's warnings.
 try:
     import os
     os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
@@ -10,12 +10,12 @@ except:
     # it's okay if it fails
     pass
 
-# First, we import tensorflow (the library we are going to use)
+# First, we import tensorflow (the ML library we are going to use)
 import tensorflow as tf
 
 # Next we'll import numpy and scipy, two common libraries
-import numpy as np
-import scipy.misc
+import numpy as np  # useful to manipulate matrices
+import scipy.misc  # useful to load and save images in our case
 
 # Then we import the Inception file, for classifying our images
 import setup_inception
@@ -24,6 +24,8 @@ from imagenet_labels import id_to_name
 
 # Tensorflow works by maintaining a "session" of the current
 # environment. This is where we instantiate it.
+# The session contains all of the elements of the graph,
+# which is how TensorFlow defines a neural network.
 sess = tf.Session()
 
 # First, we set up the Inception model. If this is the first
