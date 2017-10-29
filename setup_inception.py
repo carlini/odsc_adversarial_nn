@@ -2,6 +2,22 @@
 ## Original copyright license follows.
 
 
+
+
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
+# ===                                                                        ===
+# ===                DO NOT MODIFY ANY CODE BELOW THIS POINT                 ===
+# ===                                                                        ===
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
+# ==============================================================================
+
+
+
 # Copyright 2015 The TensorFlow Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -203,7 +219,7 @@ def run_inference_on_image(image):
 CREATED_GRAPH = False
 class InceptionModel:
   image_size = 299
-  num_labels = 1008
+  num_labels = 1000
   num_channels = 3
   def __init__(self, sess):
     global CREATED_GRAPH
@@ -221,7 +237,7 @@ class InceptionModel:
     return softmax_tensor[0]
 
   def __call__(self, img):
-    return self.predict(img)
+    return self.predict(img)[:,1:1001]
   
 
 def maybe_download_and_extract():

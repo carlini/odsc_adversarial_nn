@@ -10,29 +10,26 @@ except:
     # it's okay if it fails
     pass
 
-# First, we import tensorflow (the library we are going to use)
+# First, we import tensorflow (the ML library we are going to use)
 import tensorflow as tf
 
 # Next we'll import numpy and scipy, two common libraries
-import numpy as np
-import scipy.misc
+import numpy as np  # useful to manipulate matrices
+import scipy.misc  # useful to load and save images in our case
 
 # Then we import the Inception file, for classifying our images
-import setup_inception
-# And a mapping of the numeric IDs to human readable names
-from imagenet_labels import id_to_name
+import inception
 
 # Tensorflow works by maintaining a "session" of the current
 # environment. This is where we instantiate it.
+# The session contains all of the elements of the graph,
+# which is how TensorFlow defines a neural network.
 sess = tf.Session()
 
 # First, we set up the Inception model. If this is the first
 # time this file is being run, this will also download and
 # extract the Inception weights into a temporary folder.
-setup_inception.setup()
-
-# Now we create the inception model.
-model = setup_inception.InceptionModel(sess)
+model = inception.setup(sess)
 
 # Now we're going to attack it.
 # Begin by importing the cleverhans library, which we use to
@@ -50,6 +47,7 @@ cleverhans_model = CallableModelWrapper(model, 'logits')
 # We are going to use a very simple attack to start off.
 # Begin by constructing an instance of the attack object.
 fgsm = cleverhans.attacks.FastGradientMethod(cleverhans_model, 'tf', sess)
+#fgsm = cleverhans.attacks.BasicIterativeMethod(cleverhans_model, 'tf', sess)
 
 # We're now done defining the graph. It's time to actually
 # load up some images and generate adversarial examples.
@@ -68,10 +66,16 @@ image = (image/255.0)
 # The fast gradient (sign) method constructs adversarial
 # examples by slightly moving the image in the direction
 # of the gradient, to maximize the loss of the network.
-target = np.zeros((1,1008))
-target[0,260] = 1
+target = np.zeros((1,1000))
+target[0,820] = 1
 adversarial_example = fgsm.generate_np(np.array([image]),
                                        y_target=target,
-                                       eps=.1)
+                                       eps=.2)
 
 scipy.misc.imsave("images/adversarial_panda.png", adversarial_example[0])
+probs = sess.run(model(adversarial_example))[0]
+# Let's look at the 5 most likely classes and report what they
+# are, and how confident it is for each.
+for index in np.argsort(-probs)[:5]:
+    print(str(int(probs[index]*100))+"% confident it is a",
+          inception.id_to_name[index])

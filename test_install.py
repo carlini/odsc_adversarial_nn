@@ -57,10 +57,10 @@ except:
 try:
     if cleverhans.__version__[0] != '2':
         print("Upgrade Cleverhans with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans -upgrade")
-        raise Exception('Your version of CleverHans is too old.')
+        exit(1)
 except:
     print("Upgrade Cleverhans with pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans -upgrade")
-    raise Exception('Your version of CleverHans is too old.')
+    exit(1)
 
 try:
     import scipy.misc
@@ -70,14 +70,30 @@ except:
     print("You should install it with pip install scipy")
     exit(1)
 
-import setup_inception
-setup_inception.setup()
-model = setup_inception.InceptionModel(sess)
-preds = model.predict(tf.constant(np.zeros((1,299,299,3), dtype=np.float32)))
+try:
+    import keras
+    print("keras: OK")
+    has_keras = True
+except:
+    print("Unable to import keras.")
+    print("You should install it with pip install keras")
+    print("This is not strictly necessary, but will greatly improve performance.")
+    has_keras = False
+
+import inception
+model = inception.setup(sess)
+preds = model(tf.constant(np.zeros((1,299,299,3), dtype=np.float32)))
 preds = sess.run(preds)
 
-if np.argmax(preds) == 523:
-    print("Everything is properly installed and set up.")
-    print("You are good to go.")
+if has_keras:
+    if np.argmax(preds) == 111:
+        print("Everything is properly installed and set up.")
+        print("You are good to go.")
+    else:
+        print("Inception with Keras did not properly set up; try uninstalling keras")
 else:
-    print("Inception did not properly setup")
+    if np.argmax(preds) == 523:
+        print("Everything is properly installed and set up.")
+        print("You are good to go.")
+    else:
+        print("Inception did not properly set up; try installing keras")

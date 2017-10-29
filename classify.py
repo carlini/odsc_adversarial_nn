@@ -18,9 +18,7 @@ import numpy as np  # useful to manipulate matrices
 import scipy.misc  # useful to load and save images in our case
 
 # Then we import the Inception file, for classifying our images
-import setup_inception
-# And a mapping of the numeric IDs to human readable names
-from imagenet_labels import id_to_name
+import inception
 
 # Tensorflow works by maintaining a "session" of the current
 # environment. This is where we instantiate it.
@@ -31,10 +29,7 @@ sess = tf.Session()
 # First, we set up the Inception model. If this is the first
 # time this file is being run, this will also download and
 # extract the Inception weights into a temporary folder.
-setup_inception.setup()
-
-# Now we create the inception model.
-model = setup_inception.InceptionModel(sess)
+model = inception.setup(sess)
 
 # TensorFlow is a lazy library, where the first step is to
 # define a "graph" of how the processing will take place,
@@ -62,11 +57,12 @@ probs_tensor = tf.nn.softmax(logits_tensor)
 
 # The first image, of a panda, is already in the images folder.
 # We load it with scipy
-image = scipy.misc.imread("images/panda.png")
+image = scipy.misc.imread("images/adversarial_panda.png")
 
 # Inception wants the images to be 299x299, so resize it.
-image = np.array(scipy.misc.imresize(image, (299, 299)),
-                 dtype=np.float32)
+if image.shape != (299, 299, 3):
+    image = np.array(scipy.misc.imresize(image, (299, 299)),
+                     dtype=np.float32)
 
 # And finally, convert each pixel to the range [0,1].
 image = (image/255.0)
@@ -81,4 +77,4 @@ probs = sess.run(probs_tensor, {image_placeholder: [image]})[0]
 # are, and how confident it is for each.
 for index in np.argsort(-probs)[:5]:
     print(str(int(probs[index]*100))+"% confident it is a",
-          id_to_name[index])
+          inception.id_to_name[index])
