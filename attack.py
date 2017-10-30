@@ -78,4 +78,4 @@ probs = sess.run(model(adversarial_example))[0]
 # are, and how confident it is for each.
 for index in np.argsort(-probs)[:5]:
     print(str(int(probs[index]*100))+"% confident it is a",
-          model.id_to_name[index])
+          inception.id_to_name[index])
