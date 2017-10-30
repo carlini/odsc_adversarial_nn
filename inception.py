@@ -27,5 +27,5 @@ def setup_keras(sess):
 
 def setup_pure_tf(sess):
     import setup_inception
-    setup_inception.setup()
+    setup_inception.setup(sess)
     return setup_inception.InceptionModel(sess)
