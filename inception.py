@@ -221,9 +221,12 @@ class InceptionModel:
   image_size = 299
   num_labels = 1000
   num_channels = 3
+
   def __init__(self, sess):
     global CREATED_GRAPH
     self.sess = sess
+    convert_dict = NodeLookup()
+    self.id_to_name = convert_dict.node_lookup
     if not CREATED_GRAPH:
       create_graph()
       CREATED_GRAPH = True
@@ -237,8 +240,7 @@ class InceptionModel:
     return softmax_tensor[0]
 
   def __call__(self, img):
-    return self.predict(img)[:,1:1001]
-  
+    return self.predict(img)[:,1:1001] 
 
 def maybe_download_and_extract():
   """Download and extract model tar file."""
@@ -259,6 +261,6 @@ def maybe_download_and_extract():
   tarfile.open(filepath, 'r:gz').extractall(dest_directory)
 
 
-def setup():
+def setup(sess):
   maybe_download_and_extract()
-
+  return InceptionModel(sess)

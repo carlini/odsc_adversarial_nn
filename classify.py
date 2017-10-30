@@ -77,4 +77,4 @@ probs = sess.run(probs_tensor, {image_placeholder: [image]})[0]
 # are, and how confident it is for each.
 for index in np.argsort(-probs)[:5]:
     print(str(int(probs[index]*100))+"% confident it is a",
-          inception.id_to_name[index])
+          model.id_to_name[index])
