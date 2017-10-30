@@ -82,11 +82,15 @@ except:
 
 import inception
 model = inception.setup(sess)
-preds = model(tf.constant(np.zeros((1,299,299,3), dtype=np.float32)))
+image = scipy.misc.imread("images/panda.png")
+if image.shape != (299, 299, 3):
+    image = np.array(scipy.misc.imresize(image, (299, 299)),
+                     dtype=np.float32)
+preds = model(tf.constant(np.array([image])))
 preds = sess.run(preds)
 
 if has_keras:
-    if np.argmax(preds) == 111:
+    if np.argmax(preds) == 725:
         print("Everything is properly installed and set up, with keras.")
         print("You are good to go.")
     else:
