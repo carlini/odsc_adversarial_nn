@@ -47,7 +47,6 @@ cleverhans_model = CallableModelWrapper(model, 'logits')
 # We are going to use a very simple attack to start off.
 # Begin by constructing an instance of the attack object.
 fgsm = cleverhans.attacks.FastGradientMethod(cleverhans_model, 'tf', sess)
-#fgsm = cleverhans.attacks.BasicIterativeMethod(cleverhans_model, 'tf', sess)
 
 # We're now done defining the graph. It's time to actually
 # load up some images and generate adversarial examples.
@@ -73,9 +72,5 @@ adversarial_example = fgsm.generate_np(np.array([image]),
                                        eps=.2)
 
 scipy.misc.imsave("images/adversarial_panda.png", adversarial_example[0])
-probs = sess.run(model(adversarial_example))[0]
-# Let's look at the 5 most likely classes and report what they
-# are, and how confident it is for each.
-for index in np.argsort(-probs)[:5]:
-    print(str(int(probs[index]*100))+"% confident it is a",
-          inception.id_to_name[index])
+
+print("Done generating adversarial example.")

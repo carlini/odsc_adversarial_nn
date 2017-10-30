@@ -8,3 +8,6 @@ This should be easily done with pip:
 sudo pip install numpy scipy tensorflow
 sudo pip install -e git+http://github.com/tensorflow/cleverhans.git#egg=cleverhans
 
+To verify your install, run
+
+python test_install.py
