@@ -87,13 +87,13 @@ preds = sess.run(preds)
 
 if has_keras:
     if np.argmax(preds) == 111:
-        print("Everything is properly installed and set up.")
+        print("Everything is properly installed and set up, but without keras.")
         print("You are good to go.")
     else:
         print("Inception with Keras did not properly set up; try uninstalling keras")
 else:
     if np.argmax(preds) == 523:
-        print("Everything is properly installed and set up.")
+        print("Everything is properly installed and set up, with keras.")
         print("You are good to go.")
     else:
         print("Inception did not properly set up; try installing keras")
