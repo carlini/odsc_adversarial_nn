@@ -96,7 +96,7 @@ if has_keras:
     else:
         print("Inception with Keras did not properly set up; try uninstalling keras")
 else:
-    if np.argmax(preds) == 523:
+    if np.argmax(preds) == 725:
         print("Everything is properly installed and set up, but without keras.")
         print("You are good to go.")
     else:
