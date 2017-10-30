@@ -90,14 +90,8 @@ preds = model(tf.constant(np.array([image])))
 preds = sess.run(preds)
 
 if has_keras:
-    if np.argmax(preds) == 388:
-        print("Everything is properly installed and set up, with keras.")
-        print("You are good to go.")
-    else:
-        print("Inception with Keras did not properly set up; try uninstalling keras")
+    print("Everything is properly installed and set up, with keras.")
+    print("You are good to go.")
 else:
-    if np.argmax(preds) == 169:
-        print("Everything is properly installed and set up, but without keras.")
-        print("You are good to go.")
-    else:
-        print("Inception did not properly set up; try installing keras")
+    print("Everything is properly installed and set up, but without keras.")
+    print("You are good to go.")
