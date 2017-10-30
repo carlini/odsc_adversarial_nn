@@ -85,18 +85,18 @@ model = inception.setup(sess)
 image = scipy.misc.imread("images/panda.png")
 if image.shape != (299, 299, 3):
     image = np.array(scipy.misc.imresize(image, (299, 299)),
-                     dtype=np.float32)
+                     dtype=np.float32)/255.0
 preds = model(tf.constant(np.array([image])))
 preds = sess.run(preds)
 
 if has_keras:
-    if np.argmax(preds) == 725:
+    if np.argmax(preds) == 388:
         print("Everything is properly installed and set up, with keras.")
         print("You are good to go.")
     else:
         print("Inception with Keras did not properly set up; try uninstalling keras")
 else:
-    if np.argmax(preds) == 725:
+    if np.argmax(preds) == 169:
         print("Everything is properly installed and set up, but without keras.")
         print("You are good to go.")
     else:
