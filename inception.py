@@ -1,5 +1,6 @@
 ## Copyright (C) 2017, Nicholas Carlini and Nicolas Papernot.
 ## All rights reserved.
+import tensorflow as tf
 id_to_name = None
 
 def setup(sess):
@@ -23,7 +24,7 @@ def setup_keras(sess):
     print("Done loading model")
     def wrap(xs):
         return tf.log(model(xs*2-1))
-    return model
+    return wrap
 
 def setup_pure_tf(sess):
     import setup_inception
